@@ -1,11 +1,15 @@
 Build the test image
 
 ```
-docker build -t php-dd-apm .
+docker-compose build
 ```
 
 Run the example
 
 ```
-docker run --rm -ti -p 8080:8080 -v $(pwd):/var/www/html --name php-dd-apm php-dd-apm
+docker-compose up php
 ```
+
+Test: [localhost:8080](http://localhost:8080)
+
+Now access the Datadog UI at [app.datadoghq.com](https://app.datadoghq.com/apm/traces).

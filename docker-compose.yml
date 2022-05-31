@@ -1,0 +1,29 @@
+version: '3.7'
+
+services:
+
+  php:
+    image: php-dd-apm
+    build:
+      context: .
+    volumes:
+      - ./:/var/www/html
+    ports:
+      - 8080:8080
+    environment:
+      - DD_AGENT_HOST=datadog-agent
+      - DD_SERVICE=my-service
+      - DD_ENV=tutorial
+    depends_on:
+      - datadog-agent
+
+  datadog-agent:
+    image: datadog/agent:latest
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /proc/:/host/proc/:ro
+      - /sys/fs/cgroup/:/host/sys/fs/cgroup:ro
+    environment:
+      - DD_API_KEY=${DATADOG_API_KEY}
+      - DD_APM_ENABLED=true
+      - DD_DOGSTATSD_NON_LOCAL_TRAFFIC=1
